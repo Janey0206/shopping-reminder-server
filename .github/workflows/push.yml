@@ -2,9 +2,11 @@ name: 定时购物提醒推送
 
 on:
   schedule:
-    # 每30分钟触发
     - cron: '*/30 * * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   check-and-push:
@@ -14,6 +16,19 @@ jobs:
 
       - name: 检查并推送
         env:
-          JSONBIN_ID: ${{ secrets.JSONBIN_ID }}
-          JSONBIN_KEY: ${{ secrets.JSONBIN_KEY }}
+          WXPUSHER_TOKEN: ${{ secrets.WXPUSHER_TOKEN }}
+          WXPUSHER_UID: ${{ secrets.WXPUSHER_UID }}
         run: node scripts/push.js
+
+      - name: 提交 data.json 更新
+        if: success()
+        run: |
+          if git diff --quiet data.json; then
+            echo "无变更"
+          else
+            git config user.name 'github-actions'
+            git config user.email 'actions@github.com'
+            git add data.json
+            git commit -m '自动更新 lastSent'
+            git push
+          fi
