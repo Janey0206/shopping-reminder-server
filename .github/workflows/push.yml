@@ -2,9 +2,9 @@ name: 定时购物提醒推送
 
 on:
   schedule:
-    # 每30分钟触发 (UTC 时间, 即北京时间 08:00-23:30 每30分钟)
+    # 每30分钟触发
     - cron: '*/30 * * * *'
-  workflow_dispatch:  # 允许手动触发测试
+  workflow_dispatch:
 
 jobs:
   check-and-push:
@@ -12,17 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: 安装依赖
-        run: npm install
-
       - name: 检查并推送
         env:
           JSONBIN_ID: ${{ secrets.JSONBIN_ID }}
           JSONBIN_KEY: ${{ secrets.JSONBIN_KEY }}
-          WXPUSHER_TOKEN: ${{ secrets.WXPUSHER_TOKEN }}
-          WXPUSHER_UID: ${{ secrets.WXPUSHER_UID }}
         run: node scripts/push.js
