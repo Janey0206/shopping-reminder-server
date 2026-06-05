@@ -94,7 +94,7 @@ async function push(name, url, dayIndex) {
 
     console.log(`📤 推送: ${link.name} (第${di+1}天 @ ${targetTime})`);
     try {
-      await push(link.url, link.name, di);
+      await push(link.name, link.url, di);
       link.lastSent = today;
       pushed++;
     } catch (e) {
