@@ -1,0 +1,14 @@
+{
+  "name": "shopping-reminder",
+  "version": "1.0.0",
+  "description": "定时购物提醒工具 - 基于 WxPusher 推送，一键跳转淘宝",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "node-cron": "^3.0.3",
+    "axios": "^1.7.0"
+  }
+}
